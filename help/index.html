@@ -1,0 +1,145 @@
+﻿<html>
+<head>
+    <title>EQPQ - MakeSpritefont - Help</title>
+    <style>
+        body {
+            background-color: #AAA;
+        }
+    </style>
+</head>
+<body>
+    <h1>EverQuest - Project Quarm - MakeSpriteFont</h1>
+    <h3>Help Index</h3>
+    <hr />
+    <ul>
+        <li><a href="#About">About</a></li>
+        <li><a href="#Usage">Using The Program</a></li>
+        <li><a href="#Advanced">Advanced Arguments</a></li>
+        <li><a href="#Updating">Updating This Program</a></li>
+        <li><a href="#UpdateMakeSpriteFont">Updating MakeSpriteFont</a></li>
+        <li><a href="#TechInfo">Technical Information</a></li>
+    </ul>
+    <hr />
+    <h3 id="About">About</h3>
+    <p>EQPQ MakeSpriteFont is a program designed to convert fonts into usable font assets for the project's addon, Zeal. This tool is a user friendly wrapper to the tool released by Microsoft on GitHub for making this happen under their DirectXTK repository.</p>
+    
+    <h3 id="Usage">Using The Program</h3>
+    <p>The following sections explains each of the components of this program, and what they do.</p>
+
+    <h5>Selecting Fonts</h5>
+    <p>The left-most pane contains all of the fonts that were found installed on the system. If a font is missing, make sure it is installed before running the program. Each font checked will be rendered out to Zeal's fonts folder.</p>
+
+    <h5>Font Size</h5>
+    <p>The size of the font to attempt to render out at. This applies only to TrueType Fonts (.ttf) and is ignored for other types.</p>
+
+    <h5>Font Style</h5>
+    <p>The font style to be used, generally the Regular or Bold settings will be used for more ease of reading the text, but the other options are available. Unfortunately, only one of these options is available at any time for any font.</p>
+
+    <h5>Sharpening</h5>
+    <p>This setting enables sharper antialiasing mode for TrueType Font (.ttf) rasterization. It is generally recommended to enable this setting if the font looks blurry.</p>
+
+    <h5>Extra Arguments</h5>
+    <p>This is an advanced user field. If you wish to further modify the flags sent to the MakeSpriteFont program, see <a href="#Advanced">Advanced Arguments</a></p>
+
+    <h5>Output To</h5>
+    <p>This field is the base directory where eqgame.exe is located for Project Quarm. If the respective files are not located for a Zeal install, the program will error. The drop down may be auto-populated with some locations of where the game was installed to.</p>
+
+    <h3 id="Advanced">Advanced Arguments</h3>
+    <p>There are a number of advanced arguments you can pass to MakeSpriteFont that are not used by this program to make it more streamlined for the average user. If you're looking for more information about the arguments to MakeSpriteFont, see the table below. This table may be not exhaustive, and is recommended to refer to the official documentation located on their <a target="_blank" href="https://github.com/microsoft/DirectXTK/wiki/MakeSpriteFont">GitHub MakeSpriteFont Wiki Page</a>'</p>
+    <table>
+        <tr>
+            <th>Argument</th>
+            <th>Description</th>
+        </tr>
+        <tr>
+            <td>/CharacterRegion:<i>region</i></td>
+            <td>Specifices which Unicode (UTF-16) codepoints to include in teh font, be repeated to include more than one region. If not specified, the default ASCII range 32 to 126 is used.</td>
+        </tr>
+        <tr>
+            <td>/DefaultCharacter:<i>value</i></td>
+            <td>Fallback character substituted in place of codepoints that are not included in the font. If zero, missing characters throw exceptions.</td>
+        </tr>
+        <tr>
+            <td>/FontSize:<i>value</i></td>
+            <td>Size for TrueType fonts. Defaults to 23. Ignored when converting a bitmap font.</td>
+        </tr>
+        <tr>
+            <td>/FontStyle:<i>value</i></td>
+            <td>Style for TrueType Fonts: Regular, Bold, Italic, Strikeout, or Underline. Defaults to Regular. Ignored when converting a bitmap font.</td>
+        </tr>
+        <tr>
+            <td>/LineSpacing:<i>value</i></td>
+            <td>Spacing override. Zero is default spacing, negative closer together, positive further apart.</td>
+        </tr>
+        <tr>
+            <td>/CharacterSpacing:<i>value</i></td>
+            <td>Spacing override. Zero is default spacing, negative closer together, positive further apart.</td>
+        </tr>
+        <tr>
+            <td>/Sharp</td>
+            <td>Selects sharp antialiasing mode for TrueType rasterization. Otherwise a smoother looking (but more blurry) antialiasing mode is used.</td>
+        </tr>
+        <tr>
+            <td>/TextureFormat:<i>value</i></td>
+            <td>What format should the output texture be?
+            <ul>
+                <li>Auto - The default, chooses between CompressedMono and Rgba32 depending on whether the font data is monochromatic or multicolored.</li>
+                <li>Rgba32 - High quality and supports multicolored fonts, but wastes space.</li>
+                <li>Bgra4444 - Good choice for color fonts on the Universal Windows Platform (UWP) or Xbox One, as this format requires the DirectX 11.1 Runtime and a WDDM 1.2 driver.</li>
+                <li>CompressedMono - The smallest format, and works on all D3D platforms, but it only supports monochromatic font data. This uses a speical BC2 encoder, check comments in SpriteFontWriter.cs in the repo for more information.</li>
+            </ul>
+            </td>
+        </tr>
+        <tr>
+            <td>/NoPremultiply</td>
+            <td>By default, font textures use premultiplied alpha format. Pass this flag if you want interpolative/straight alpha instead.</td>
+        </tr>
+        <tr>
+            <td>/FeatureLevel:<i>value</i></td>
+            <td>Provides the target feature level to control texture size warnings. Defaults to FL9_1</td>
+        </tr>
+        <tr>
+            <td>/FastPack</td>
+            <td>By default, the individual glyphs are packed tightly in the resulting texture. This algorithm works well, but can be extremely slow when applied to large character sets. Pass this flag if you want to use a simplified grid-based packing which is much faster to compute for large character sets.</td>
+        </tr>
+        <tr>
+            <td>/DebugOutputSpritesheet:<i>filename</i></td>
+            <td>Dumps the generated texture to a bitmap file (useful when debugging the MakeSpriteFont tool, not so much if you are just trying to use it)</td>
+        </tr>
+    </table>
+
+    <h3 id="Updating">Updating This Program</h3>
+    <p>This program can be manually checked for updates on GitHub located at <a href="https://github.com/Kalbintion/EQPQ-MakeSpritefont">https://github.com/Kalbintion/EQPQ-MakeSpritefont</a></p>
+
+    <h3 id="UpdateMakeSpriteFont">Updating MakeSpriteFont</h3>
+    <p>You can freely update MakeSpriteFont by replacing the executable located in the lib folder of this application with a newer (or older) version of the application.</p>
+
+    <h3 id="TechInfo">Technical Information</h3>
+    <p>There is various technical information that this program uses when addressing various systems, from gathering locations where eqgame.exe is located to what flags is actually being supplied to MakeSpriteFont. This section documents each of these.</p>
+
+    <h5>MakeSpriteFont Arguments</h5>
+    <p>The following is the list of the arguments sent to the MakeSpriteFont application from this one. For a full list of arguments MakeSpriteFont accepts, see the <a href="#Advanced">Advanced Arguments</a> section.</p>
+    <table>
+        <tr>
+            <th>Argument</th>
+            <th>Description</th>
+        </tr>
+        <tr>
+            <td>/FontSize:#</td>
+            <td>This flag is sent with a # based on the users font size input.</td>
+        </tr>
+        <tr>
+            <td>/FontStyle:<i>value</i></td>
+            <td>This flag is sent with the font style the user selected.</td>
+        </tr>
+        <tr>
+            <td>/Sharp</td>
+            <td>This flag is only sent if the Sharp option is checked.</td>
+        </tr>
+        <tr>
+            <td>/TextureFormat:CompressedMono</td>
+            <td>This flag is sent via the Extra Arguments field by default.</td>
+        </tr>
+    </table>
+</body>
+</html>
