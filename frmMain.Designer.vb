@@ -43,16 +43,18 @@ Partial Class frmMain
         btnFontSelectNone = New Button()
         btnFontSelectAll = New Button()
         lblOutput = New Label()
+        txtFontSizes = New TextBox()
         Label2 = New Label()
         pnlExtraArgs = New Panel()
         btnCreateSpriteFonts = New Button()
         Panel2 = New Panel()
         Panel1 = New Panel()
-        txtFontSizes = New TextBox()
         scPrimary = New SplitContainer()
         scSecondary = New SplitContainer()
         pnlFontButtons = New Panel()
         Label1 = New Label()
+        lblProgress = New Label()
+        pbarCreate = New ProgressBar()
         btnSettings = New Button()
         btnAbout = New Button()
         Panel4 = New Panel()
@@ -60,8 +62,6 @@ Partial Class frmMain
         Button1 = New Button()
         Panel3 = New Panel()
         chkSharpen = New CheckBox()
-        pbarCreate = New ProgressBar()
-        lblProgress = New Label()
         CType(nudFontSize, ComponentModel.ISupportInitialize).BeginInit()
         pnlExtraArgs.SuspendLayout()
         Panel2.SuspendLayout()
@@ -263,6 +263,17 @@ Partial Class frmMain
         lblOutput.TextAlign = ContentAlignment.MiddleRight
         ttHelp.SetToolTip(lblOutput, "Font style.")
         ' 
+        ' txtFontSizes
+        ' 
+        txtFontSizes.Dock = DockStyle.Fill
+        txtFontSizes.Location = New Point(100, 0)
+        txtFontSizes.Name = "txtFontSizes"
+        txtFontSizes.Size = New Size(220, 23)
+        txtFontSizes.TabIndex = 2
+        txtFontSizes.Text = "32;"
+        ttHelp.SetToolTip(txtFontSizes, "Semi-colon separated list of numbers to generate fonts.")
+        txtFontSizes.Visible = False
+        ' 
         ' Label2
         ' 
         Label2.Dock = DockStyle.Top
@@ -313,17 +324,6 @@ Partial Class frmMain
         Panel1.Name = "Panel1"
         Panel1.Size = New Size(320, 25)
         Panel1.TabIndex = 3
-        ' 
-        ' txtFontSizes
-        ' 
-        txtFontSizes.Dock = DockStyle.Fill
-        txtFontSizes.Location = New Point(100, 0)
-        txtFontSizes.Name = "txtFontSizes"
-        txtFontSizes.Size = New Size(220, 23)
-        txtFontSizes.TabIndex = 2
-        txtFontSizes.Text = "32;"
-        ttHelp.SetToolTip(txtFontSizes, "Semi-colon separated list of numbers to generate fonts.")
-        txtFontSizes.Visible = False
         ' 
         ' scPrimary
         ' 
@@ -392,6 +392,22 @@ Partial Class frmMain
         Label1.Text = "Select Font(s)"
         Label1.TextAlign = ContentAlignment.TopCenter
         ' 
+        ' lblProgress
+        ' 
+        lblProgress.Location = New Point(3, 245)
+        lblProgress.Name = "lblProgress"
+        lblProgress.Size = New Size(320, 18)
+        lblProgress.TabIndex = 17
+        lblProgress.Text = "0 / 0"
+        lblProgress.TextAlign = ContentAlignment.MiddleCenter
+        ' 
+        ' pbarCreate
+        ' 
+        pbarCreate.Location = New Point(3, 226)
+        pbarCreate.Name = "pbarCreate"
+        pbarCreate.Size = New Size(320, 16)
+        pbarCreate.TabIndex = 16
+        ' 
         ' btnSettings
         ' 
         btnSettings.Location = New Point(103, 343)
@@ -456,22 +472,6 @@ Partial Class frmMain
         chkSharpen.Size = New Size(15, 14)
         chkSharpen.TabIndex = 1
         chkSharpen.UseVisualStyleBackColor = True
-        ' 
-        ' pbarCreate
-        ' 
-        pbarCreate.Location = New Point(3, 226)
-        pbarCreate.Name = "pbarCreate"
-        pbarCreate.Size = New Size(320, 16)
-        pbarCreate.TabIndex = 16
-        ' 
-        ' lblProgress
-        ' 
-        lblProgress.Location = New Point(3, 245)
-        lblProgress.Name = "lblProgress"
-        lblProgress.Size = New Size(320, 18)
-        lblProgress.TabIndex = 17
-        lblProgress.Text = "0 / 0"
-        lblProgress.TextAlign = ContentAlignment.MiddleCenter
         ' 
         ' frmMain
         ' 

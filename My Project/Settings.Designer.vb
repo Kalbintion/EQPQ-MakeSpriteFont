@@ -125,6 +125,30 @@ Namespace My
                 Me("AlwaysUseRegex") = value
             End Set
         End Property
+        
+        <Global.System.Configuration.UserScopedSettingAttribute(),  _
+         Global.System.Diagnostics.DebuggerNonUserCodeAttribute(),  _
+         Global.System.Configuration.DefaultSettingValueAttribute("True")>  _
+        Public Property SuperFastRaster() As Boolean
+            Get
+                Return CType(Me("SuperFastRaster"),Boolean)
+            End Get
+            Set
+                Me("SuperFastRaster") = value
+            End Set
+        End Property
+        
+        <Global.System.Configuration.UserScopedSettingAttribute(),  _
+         Global.System.Diagnostics.DebuggerNonUserCodeAttribute(),  _
+         Global.System.Configuration.DefaultSettingValueAttribute("60")>  _
+        Public Property ProcessTimeout() As Integer
+            Get
+                Return CType(Me("ProcessTimeout"),Integer)
+            End Get
+            Set
+                Me("ProcessTimeout") = value
+            End Set
+        End Property
     End Class
 End Namespace
 

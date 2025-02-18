@@ -27,6 +27,10 @@ Partial Class frmSettings
         tcSettings = New TabControl()
         tpGeneral = New TabPage()
         GroupBox2 = New GroupBox()
+        nudProcTimeout = New NumericUpDown()
+        Label6 = New Label()
+        chkSuperFastRaster = New CheckBox()
+        Label5 = New Label()
         chkAlwaysUseRegex = New CheckBox()
         Label4 = New Label()
         chkAllowMultiple = New CheckBox()
@@ -48,6 +52,7 @@ Partial Class frmSettings
         tcSettings.SuspendLayout()
         tpGeneral.SuspendLayout()
         GroupBox2.SuspendLayout()
+        CType(nudProcTimeout, ComponentModel.ISupportInitialize).BeginInit()
         GroupBox1.SuspendLayout()
         SuspendLayout()
         ' 
@@ -76,6 +81,10 @@ Partial Class frmSettings
         ' 
         ' GroupBox2
         ' 
+        GroupBox2.Controls.Add(nudProcTimeout)
+        GroupBox2.Controls.Add(Label6)
+        GroupBox2.Controls.Add(chkSuperFastRaster)
+        GroupBox2.Controls.Add(Label5)
         GroupBox2.Controls.Add(chkAlwaysUseRegex)
         GroupBox2.Controls.Add(Label4)
         GroupBox2.Controls.Add(chkAllowMultiple)
@@ -87,6 +96,49 @@ Partial Class frmSettings
         GroupBox2.TabStop = False
         GroupBox2.Text = "Extra"
         ' 
+        ' nudProcTimeout
+        ' 
+        nudProcTimeout.Location = New Point(127, 77)
+        nudProcTimeout.Maximum = New Decimal(New Integer() {99999, 0, 0, 0})
+        nudProcTimeout.Minimum = New Decimal(New Integer() {1, 0, 0, 0})
+        nudProcTimeout.Name = "nudProcTimeout"
+        nudProcTimeout.Size = New Size(60, 23)
+        nudProcTimeout.TabIndex = 7
+        ttInfo.SetToolTip(nudProcTimeout, "In the event Super Fast Raster is unchecked, this is the maximum amount of time spent waiting for the previous process to finish running before it continues anyway. This value is in seconds." & vbCrLf)
+        nudProcTimeout.Value = New Decimal(New Integer() {60, 0, 0, 0})
+        ' 
+        ' Label6
+        ' 
+        Label6.Location = New Point(6, 80)
+        Label6.Name = "Label6"
+        Label6.Size = New Size(115, 15)
+        Label6.TabIndex = 6
+        Label6.Text = "Process Timeout:"
+        Label6.TextAlign = ContentAlignment.MiddleRight
+        ttInfo.SetToolTip(Label6, "In the event Super Fast Raster is unchecked, this is the maximum amount of time spent waiting for the previous process to finish running before it continues anyway. This value is in seconds." & vbCrLf)
+        ' 
+        ' chkSuperFastRaster
+        ' 
+        chkSuperFastRaster.AutoSize = True
+        chkSuperFastRaster.Checked = True
+        chkSuperFastRaster.CheckState = CheckState.Checked
+        chkSuperFastRaster.Location = New Point(127, 60)
+        chkSuperFastRaster.Name = "chkSuperFastRaster"
+        chkSuperFastRaster.Size = New Size(15, 14)
+        chkSuperFastRaster.TabIndex = 5
+        ttInfo.SetToolTip(chkSuperFastRaster, "This uses the fastest possible means to generate the font files, if this lags out your system when generating tons of font files, disable this setting.")
+        chkSuperFastRaster.UseVisualStyleBackColor = True
+        ' 
+        ' Label5
+        ' 
+        Label5.Location = New Point(6, 59)
+        Label5.Name = "Label5"
+        Label5.Size = New Size(115, 15)
+        Label5.TabIndex = 4
+        Label5.Text = "Super Fast Raster:"
+        Label5.TextAlign = ContentAlignment.MiddleRight
+        ttInfo.SetToolTip(Label5, "This uses the fastest possible means to generate the font files, if this lags out your system when generating tons of font files, disable this setting.")
+        ' 
         ' chkAlwaysUseRegex
         ' 
         chkAlwaysUseRegex.AutoSize = True
@@ -96,7 +148,6 @@ Partial Class frmSettings
         chkAlwaysUseRegex.TabIndex = 3
         ttInfo.SetToolTip(chkAlwaysUseRegex, "Forces always using Regular Expressions when it comes to ""Select Some""")
         chkAlwaysUseRegex.UseVisualStyleBackColor = True
-        chkAlwaysUseRegex.Visible = False
         ' 
         ' Label4
         ' 
@@ -107,7 +158,6 @@ Partial Class frmSettings
         Label4.Text = "Always Use RegEx:"
         Label4.TextAlign = ContentAlignment.MiddleRight
         ttInfo.SetToolTip(Label4, "Forces always using Regular Expressions when it comes to ""Select Some""")
-        Label4.Visible = False
         ' 
         ' chkAllowMultiple
         ' 
@@ -118,7 +168,6 @@ Partial Class frmSettings
         chkAllowMultiple.TabIndex = 1
         ttInfo.SetToolTip(chkAllowMultiple, "Lets you enter multiple font sizes for generation purposes.")
         chkAllowMultiple.UseVisualStyleBackColor = True
-        chkAllowMultiple.Visible = False
         ' 
         ' Label3
         ' 
@@ -129,7 +178,6 @@ Partial Class frmSettings
         Label3.TabIndex = 0
         Label3.Text = "Allow Multiple Sizes:"
         ttInfo.SetToolTip(Label3, "Lets you enter multiple font sizes for generation purposes.")
-        Label3.Visible = False
         ' 
         ' btnDefaults
         ' 
@@ -262,6 +310,7 @@ Partial Class frmSettings
         tpGeneral.ResumeLayout(False)
         GroupBox2.ResumeLayout(False)
         GroupBox2.PerformLayout()
+        CType(nudProcTimeout, ComponentModel.ISupportInitialize).EndInit()
         GroupBox1.ResumeLayout(False)
         GroupBox1.PerformLayout()
         ResumeLayout(False)
@@ -288,4 +337,8 @@ Partial Class frmSettings
     Friend WithEvents chkAlwaysUseRegex As CheckBox
     Friend WithEvents Label4 As Label
     Friend WithEvents ttInfo As ToolTip
+    Friend WithEvents chkSuperFastRaster As CheckBox
+    Friend WithEvents Label5 As Label
+    Friend WithEvents Label6 As Label
+    Friend WithEvents nudProcTimeout As NumericUpDown
 End Class

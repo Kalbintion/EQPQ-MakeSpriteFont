@@ -150,4 +150,14 @@
         My.Settings.AlwaysUseRegex = chkAlwaysUseRegex.Checked
         My.Settings.Save()
     End Sub
+
+    Private Sub nudProcTimeout_ValueChanged(sender As Object, e As EventArgs) Handles nudProcTimeout.ValueChanged
+        My.Settings.ProcessTimeout = nudProcTimeout.Value
+        My.Settings.Save()
+    End Sub
+
+    Private Sub chkSuperFastRaster_CheckedChanged(sender As Object, e As EventArgs) Handles chkSuperFastRaster.CheckedChanged
+        My.Settings.SuperFastRaster = chkSuperFastRaster.Checked
+        My.Settings.Save()
+    End Sub
 End Class

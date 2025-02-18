@@ -181,16 +181,34 @@ Public Class frmMain
 
                 Return
             ElseIf reWildcardString.IsMatch(searchOn) Then
-                reSearchOn = New Regex(searchOn.Replace("*", ".*"), RegexOptions.IgnoreCase)
+                Dim wildcardParts As String() = searchOn.Split("*")
+                Dim lastPartIdx As Integer = 0
+                Dim found As Boolean = True
+                For Each node As TreeNode In tvFonts.Nodes
+                    For Each wildcardPart As String In wildcardParts
+                        Dim tempIdx As Integer = node.Text.IndexOf(wildcardPart, lastPartIdx)
+                        If tempIdx = -1 Then
+                            found = False
+                            Exit For
+                        Else
+                            lastPartIdx = tempIdx
+                        End If
+                    Next
+                    If found Then
+                        node.Checked = True
+                    End If
+                    found = True
+                    lastPartIdx = 0
+                Next
             Else
                 reSearchOn = reRegexString
+                Debug.Print(searchOn & Environment.NewLine & reSearchOn.ToString)
+
+                For Each node As TreeNode In tvFonts.Nodes
+                    node.Checked = reSearchOn.IsMatch(node.Text)
+                Next
             End If
 
-            Debug.Print(searchOn & Environment.NewLine & reSearchOn.ToString)
-
-            For Each node As TreeNode In tvFonts.Nodes
-                node.Checked = reSearchOn.IsMatch(node.Text)
-            Next
         End If
     End Sub
 
@@ -207,21 +225,21 @@ Public Class frmMain
         ' Base Path
         Dim bPath As String = Path.GetFullPath(cmbOutputTo.Text)
         If Not Path.Exists(bPath) Then
-            MessageBox.Show(Me, "ERROR: The provided path is invalid! Please make sure the path supplied is to the Quarm directory where Zeal is installed.", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error, MessageBoxDefaultButton.Button1)
+            MessageBox.Show(Me, "ERROR 0xF1 - Path Not Valid: The provided path is invalid! Please make sure the path supplied is to the Quarm directory where Zeal is installed.", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error, MessageBoxDefaultButton.Button1)
             Return
         End If
 
         ' Zeal
         bPath &= "\uifiles\zeal"
         If Not Path.Exists(bPath) Then
-            MessageBox.Show(Me, "ERROR: The provided path does not seem to have zeal installed! Please make sure the path supplied is to the Quarm directory where Zeal is installed.", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error, MessageBoxDefaultButton.Button1)
+            MessageBox.Show(Me, "ERROR 0xF2 - Path Not Valid: The provided path does not seem to have zeal installed! Please make sure the path supplied is to the Quarm directory where Zeal is installed.", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error, MessageBoxDefaultButton.Button1)
             Return
         End If
 
         ' Zeal Fonts
         bPath &= "\fonts\"
         If Not Path.Exists(bPath) Then
-            MessageBox.Show(Me, "ERROR: The provided path does not seem to have a zeal fonts folder! Please make sure the path supplied is to the Quarm directory where Zeal is installed.", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error, MessageBoxDefaultButton.Button1)
+            MessageBox.Show(Me, "ERROR 0xF3 - Path Not Valid: The provided path does not seem to have a zeal fonts folder! Please make sure the path supplied is to the Quarm directory where Zeal is installed.", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error, MessageBoxDefaultButton.Button1)
             Return
         End If
 
@@ -234,13 +252,13 @@ Public Class frmMain
         Next
 
         If fontList.Count <= 0 Then
-            MessageBox.Show(Me, "ERROR: Could not create sprite fonts because there are none selected!", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error, MessageBoxDefaultButton.Button1)
+            MessageBox.Show(Me, "ERROR 0x01 - No Fonts Selected: Could not create sprite fonts because there are none selected!", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error, MessageBoxDefaultButton.Button1)
             Return
         End If
 
         Dim fontSize As Integer = nudFontSize.Value
         If fontSize < nudFontSize.Minimum Or fontSize > nudFontSize.Maximum Then
-            MessageBox.Show(Me, "ERROR: Could not create sprite fonts because the font size is out of range!" & Environment.NewLine &
+            MessageBox.Show(Me, "ERROR 0x02 - Size Out Of Range: Could not create sprite fonts because the font size is out of range!" & Environment.NewLine &
                             "Got: " & fontSize & ", Expected: " & nudFontSize.Minimum & " to " & nudFontSize.Maximum, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error, MessageBoxDefaultButton.Button1)
             Return
         End If
@@ -287,6 +305,10 @@ Public Class frmMain
 
         AppendPrevEQPath(cmbOutputTo.Text)
 
+        pbarCreate.Value = 0
+        pbarCreate.Maximum = fontList.Count
+        lblProgress.Text = "0 / " & fontList.Count
+
         For Each font As String In fontList
             Dim filName As String = font.ToLower().Replace(" ", "_") & filSuffix & ".spritefont"
             Dim outName As String = """" & bPath & filName & """"
@@ -298,6 +320,11 @@ Public Class frmMain
             proc.CreateNoWindow = True
             proc.WindowStyle = ProcessWindowStyle.Hidden
             Dim execProc As Process = Process.Start(proc)
+            If Not My.Settings.SuperFastRaster Then
+                execProc.WaitForExit()
+            End If
+            pbarCreate.Value += 1
+            lblProgress.Text = pbarCreate.Value & " / " & fontList.Count
         Next
     End Sub
 
