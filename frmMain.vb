@@ -220,21 +220,21 @@ Public Class frmMain
         ' Base Path
         Dim bPath As String = Path.GetFullPath(cmbOutputTo.Text)
         If Not Path.Exists(bPath) Then
-            MessageBox.Show(Me, "ERROR 0xF1 - Path Not Valid: The provided path is invalid! Please make sure the path supplied is to the Quarm directory where Zeal is installed.", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error, MessageBoxDefaultButton.Button1)
+            ShowError("ERROR 0xF1 - Path Not Valid: The provided path is invalid! Please make sure the path supplied is to the Quarm directory where Zeal is installed.")
             Return
         End If
 
         ' Zeal
         bPath &= "\uifiles\zeal"
         If Not Path.Exists(bPath) Then
-            MessageBox.Show(Me, "ERROR 0xF2 - Path Not Valid: The provided path does not seem to have zeal installed! Please make sure the path supplied is to the Quarm directory where Zeal is installed.", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error, MessageBoxDefaultButton.Button1)
+            ShowError("ERROR 0xF2 - Path Not Valid: The provided path does not seem to have zeal installed! Please make sure the path supplied is to the Quarm directory where Zeal is installed.")
             Return
         End If
 
         ' Zeal Fonts
         bPath &= "\fonts\"
         If Not Path.Exists(bPath) Then
-            MessageBox.Show(Me, "ERROR 0xF3 - Path Not Valid: The provided path does not seem to have a zeal fonts folder! Please make sure the path supplied is to the Quarm directory where Zeal is installed.", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error, MessageBoxDefaultButton.Button1)
+            ShowError("ERROR 0xF3 - Path Not Valid: The provided path does not seem to have a zeal fonts folder! Please make sure the path supplied is to the Quarm directory where Zeal is installed.")
             Return
         End If
 
@@ -247,14 +247,14 @@ Public Class frmMain
         Next
 
         If fontList.Count <= 0 Then
-            MessageBox.Show(Me, "ERROR 0x01 - No Fonts Selected: Could not create sprite fonts because there are none selected!", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error, MessageBoxDefaultButton.Button1)
+            ShowError("ERROR 0x01 - No Fonts Selected: Could not create sprite fonts because there are none selected!")
             Return
         End If
 
         Dim fontSize As Integer = nudFontSize.Value
         If fontSize < nudFontSize.Minimum Or fontSize > nudFontSize.Maximum Then
-            MessageBox.Show(Me, "ERROR 0x02 - Size Out Of Range: Could not create sprite fonts because the font size is out of range!" & Environment.NewLine &
-                            "Got: " & fontSize & ", Expected: " & nudFontSize.Minimum & " to " & nudFontSize.Maximum, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error, MessageBoxDefaultButton.Button1)
+            ShowError("ERROR 0x02 - Size Out Of Range: Could not create sprite fonts because the font size is out of range!" & Environment.NewLine &
+                      "Got: " & fontSize & ", Expected: " & nudFontSize.Minimum & " to " & nudFontSize.Maximum)
             Return
         End If
 
@@ -398,5 +398,9 @@ Public Class frmMain
 
     Private Sub btnSettings_Click(sender As Object, e As EventArgs) Handles btnSettings.Click
         frmSettings.Show()
+    End Sub
+
+    Private Sub ShowError(ByVal message As String, Optional ByVal title As String = "Error", Optional ByVal buttons As MessageBoxButtons = MessageBoxButtons.OK, Optional ByVal defaultButton As MessageBoxDefaultButton = MessageBoxDefaultButton.Button1)
+        MessageBox.Show(Me, message, title, buttons, MessageBoxIcon.Error, defaultButton)
     End Sub
 End Class
