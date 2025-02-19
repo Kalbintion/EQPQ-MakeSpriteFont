@@ -293,23 +293,19 @@ Public Class frmMain
         SetProgress(0, pMax)
 
         ' Do the actual handling
+        Dim fontSizes As String() = nudFontSize.Value.ToString().Split(";")
+        If My.Settings.UseAdvancedFontSize Then
+            fontSizes = txtFontSizes.Text.Split(";")
+        End If
+
         For Each font As String In fontList
             Dim cmdString As String
-
-            If My.Settings.UseAdvancedFontSize Then
-                Dim fontSizes As String() = txtFontSizes.Text.Split(";")
-                For Each curFontSize As String In fontSizes
-                    cmdString = MakeCommandArguments(font, curFontSize, fontStyle, chkSharpen.Checked, bPath)
-
-                    ExecuteMakeSpriteFont(cmdString)
-                    UpdateProgress(pbarCreate.Value + 1, pMax)
-                Next
-            Else
-                cmdString = MakeCommandArguments(font, nudFontSize.Value.ToString(), fontStyle, chkSharpen.Checked, bPath)
+            For Each curFontSize As String In fontSizes
+                cmdString = MakeCommandArguments(font, curFontSize, fontStyle, chkSharpen.Checked, bPath)
 
                 ExecuteMakeSpriteFont(cmdString)
                 UpdateProgress(pbarCreate.Value + 1, pMax)
-            End If
+            Next
         Next
     End Sub
 
