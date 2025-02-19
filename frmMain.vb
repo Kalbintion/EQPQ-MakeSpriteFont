@@ -1,10 +1,5 @@
-﻿Imports System.Configuration
-Imports System.Diagnostics.Eventing.Reader
-Imports System.IO
-Imports System.IO.Enumeration
-Imports System.Security.AccessControl
+﻿Imports System.IO
 Imports System.Text.RegularExpressions
-Imports Microsoft.VisualBasic.FileIO
 Imports Microsoft.Win32
 
 Public Class frmMain
@@ -273,59 +268,117 @@ Public Class frmMain
         End If
 
         ' Command setup
-        Dim cmdSuffix As String = ""
-        Dim filSuffix As String = ""
+        Dim fontStyle As String = "REGULAR"
 
         If fontStyleRegular Then
-            cmdSuffix &= "/FontStyle:Regular "
-            filSuffix &= "_regular"
+            fontStyle = "Regular"
         ElseIf fontStyleBold Then
-            cmdSuffix &= "/FontStyle:Bold "
-            filSuffix &= "_bold"
+            fontStyle = "Bold"
         ElseIf fontStyleItalic Then
-            cmdSuffix &= "/FontStyle:Italic "
-            filSuffix &= "_italic"
+            fontStyle = "Italic"
         ElseIf fontStyleStrike Then
-            cmdSuffix &= "/FontStyle:Strikeout "
-            filSuffix &= "_strikeout"
+            fontStyle = "Strikeout"
         ElseIf fontStyleUnderline Then
-            cmdSuffix &= "/FontStyle:Underline "
-            filSuffix &= "_underline"
+            fontStyle = "Underline"
         End If
 
-        cmdSuffix &= "/FontSize:" & nudFontSize.Value & " "
-        filSuffix &= "_" & nudFontSize.Value
-
-        If chkSharpen.Checked Then
-            cmdSuffix &= "/Sharp "
-            filSuffix &= "_sharp"
+        ' Progress Indicators
+        Dim pMult As Integer = 1
+        If My.Settings.UseAdvancedFontSize Then
+            pMult = txtFontSizes.Text.Split(";").Length
         End If
-
-        cmdSuffix &= txtExtraArgs.Text & " "
+        Dim pMax As Integer = fontList.Count * pMult
 
         AppendPrevEQPath(cmbOutputTo.Text)
+        SetProgress(0, pMax)
 
-        pbarCreate.Value = 0
-        pbarCreate.Maximum = fontList.Count
-        lblProgress.Text = "0 / " & fontList.Count
-
+        ' Do the actual handling
         For Each font As String In fontList
-            Dim filName As String = font.ToLower().Replace(" ", "_") & filSuffix & ".spritefont"
-            Dim outName As String = """" & bPath & filName & """"
-            Dim cmd As String = """" & font & """ " & cmdSuffix & outName
-            Dim proc As New ProcessStartInfo
-            proc.FileName = ".\lib\MakeSpriteFont.exe"
-            proc.Arguments = cmd
-            proc.UseShellExecute = True
-            proc.CreateNoWindow = True
-            proc.WindowStyle = ProcessWindowStyle.Hidden
-            Dim execProc As Process = Process.Start(proc)
-            If Not My.Settings.SuperFastRaster Then
-                execProc.WaitForExit()
+            Dim cmdString As String
+
+            If My.Settings.UseAdvancedFontSize Then
+                Dim fontSizes As String() = txtFontSizes.Text.Split(";")
+                For Each curFontSize As String In fontSizes
+                    cmdString = MakeCommandArguments(font, curFontSize, fontStyle, chkSharpen.Checked, bPath)
+
+                    ExecuteMakeSpriteFont(cmdString)
+                    UpdateProgress(pbarCreate.Value + 1, pMax)
+                Next
+            Else
+                cmdString = MakeCommandArguments(font, nudFontSize.Value.ToString(), fontStyle, chkSharpen.Checked, bPath)
+
+                ExecuteMakeSpriteFont(cmdString)
+                UpdateProgress(pbarCreate.Value + 1, pMax)
             End If
-            pbarCreate.Value += 1
-            lblProgress.Text = pbarCreate.Value & " / " & fontList.Count
         Next
+    End Sub
+
+    Private Function MakeCommandArguments(ByRef fontName As String, ByRef fontSize As String, ByRef fontStyle As String, ByRef fontSharp As Boolean, ByRef basePath As String) As String
+        Dim out As String = ""
+
+        out = """" & fontName & """ "
+        Select Case fontStyle.ToLower()
+            Case "regular"
+                out &= "/FontStyle:Regular "
+            Case "bold"
+                out &= "/FontStyle:Bold "
+            Case "italic"
+                out &= "/FontStyle:Italic "
+            Case "strikeout"
+                out &= "/FontStyle:Strikeout "
+            Case "underline"
+                out &= "/FontStyle:Underline "
+        End Select
+
+        out &= "/FontSize:" & fontSize & " "
+
+        If fontSharp Then
+            out &= "/Sharp "
+        End If
+
+        out &= MakeOutputFileName(fontName, fontSize, fontStyle, fontSharp, basePath)
+
+        Return out
+    End Function
+
+    Private Function MakeOutputFileName(ByRef fontName As String, ByRef fontSize As String, ByRef fontStyle As String, ByRef fontSharp As Boolean, ByRef basePath As String) As String
+        Dim out As String = ""
+
+        out = fontName.Replace(" ", "_")
+        out &= "_" & fontStyle
+        out &= "_" & fontSize
+        If fontSharp Then
+            out &= "_sharp"
+        End If
+
+        out &= ".spritefont"
+
+        out = """" & basePath & out.ToLower() & """"
+
+        Return out
+    End Function
+
+    Private Sub ExecuteMakeSpriteFont(ByVal command As String)
+        Dim proc As New ProcessStartInfo
+        proc.FileName = ".\lib\MakeSpriteFont.exe"
+        proc.Arguments = command
+        proc.UseShellExecute = True
+        proc.CreateNoWindow = True
+        proc.WindowStyle = ProcessWindowStyle.Hidden
+        Dim execproc As Process = Process.Start(proc)
+        If Not My.Settings.SuperFastRaster Then
+            execproc.WaitForExit(My.Settings.ProcessTimeout * 1000)
+        End If
+    End Sub
+
+    Private Sub SetProgress(ByVal cur As Integer, ByVal max As Integer)
+        pbarCreate.Maximum = max
+        UpdateProgress(cur, max)
+    End Sub
+
+    Private Sub UpdateProgress(ByVal cur As Integer, ByVal max As Integer)
+        pbarCreate.Value = cur
+        lblProgress.Text = cur & " / " & max
     End Sub
 
     Private Sub AppendPrevEQPath(ByRef path As String)

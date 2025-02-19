@@ -5,17 +5,53 @@
         body {
             background-color: #AAA;
         }
+
+        ul.toc {
+            float: left;
+            margin-right: 1rem;
+        }
+
+        pre.inline {
+            display: inline;
+        }
+
+        h1, h2, h3, h4, h5 {
+            margin: 1rem 0 0.5rem 0;
+            text-decoration: underline;
+        }
+
+        table {
+            border-collapse: collapse;
+            border: 1px solid black;
+        }
+
+        tr, td {
+            border: 1px solid black;
+        }
+
+        p {
+            margin: 0;
+            display: inline;
+        }
+
+        blockquote.error {
+            background-color: rgba(255, 0, 0, 0.25);
+            padding: 0.5rem;
+            border-radius: 1rem;
+            width: fit-content;
+            margin: 0 0 0.25rem 0.5rem;
+        }
     </style>
 </head>
 <body>
-    <h1>EverQuest - Project Quarm - MakeSpriteFont</h1>
-    <h3>Help Index</h3>
-    <hr />
-    <ul>
+    <h1 class="title">EverQuest - Project Quarm - MakeSpriteFont</h1>
+    <h2>Help Index</h2>
+    <ul class="toc">
         <li><a href="#About">About</a></li>
         <li><a href="#Usage">Using The Program</a></li>
         <li><a href="#Advanced">Advanced Arguments</a></li>
-        <li><a href="#Updating">Updating This Program</a>
+        <li>
+            <a href="#Updating">Updating This Program</a>
             <ul>
                 <li><a href="#SelectingFonts">Selecting Fonts</a></li>
                 <li><a href="#FontSize">Font Size</a></li>
@@ -31,73 +67,72 @@
         <li><a href="#UpdateMakeSpriteFont">Updating MakeSpriteFont</a></li>
         <li><a href="#TechInfo">Technical Information</a></li>
     </ul>
-    <hr />
-    <h3 id="About">About</h3>
+    <h2 id="About">About</h2>
     <p>EQPQ MakeSpriteFont is a program designed to convert fonts into usable font assets for the project's addon, Zeal. This tool is a user friendly wrapper to the tool released by Microsoft on GitHub for making this happen under their DirectXTK repository.</p>
 
-    <h3 id="Usage">Using The Program</h3>
+    <h2 id="Usage">Using The Program</h2>
     <p>The following sections explains each of the components of this program, and what they do.</p>
 
-    <h5 id="SelectingFonts">Selecting Fonts</h5>
+    <h3 id="SelectingFonts">Selecting Fonts</h3>
     <p>The left-most pane contains all of the fonts that were found installed on the system. If a font is missing, make sure it is installed before running the program. Each font checked will be rendered out to Zeal's fonts folder.</p>
 
-    <h5 id="FontSize">Font Size</h5>
+    <h3 id="FontSize">Font Size</h3>
     <p>The size of the font to attempt to render out at. This applies only to TrueType Fonts (.ttf) and is ignored for other types.</p>
 
-    <h5 id="FontStyle">Font Style</h5>
+    <h3 id="FontStyle">Font Style</h3>
     <p>The font style to be used, generally the Regular or Bold settings will be used for more ease of reading the text, but the other options are available. Unfortunately, only one of these options is available at any time for any font.</p>
 
-    <h5 id="Sharpening">Sharpening</h5>
+    <h3 id="Sharpening">Sharpening</h3>
     <p>This setting enables sharper antialiasing mode for TrueType Font (.ttf) rasterization. It is generally recommended to enable this setting if the font looks blurry.</p>
 
-    <h5 id="ExtraArgs">Extra Arguments</h5>
+    <h3 id="ExtraArgs">Extra Arguments</h3>
     <p>This is an advanced user field. If you wish to further modify the flags sent to the MakeSpriteFont program, see the <a href="#Advanced">Advanced Arguments</a> section. This field should generally not be modified unless you know what you are doing.</p>
 
-    <h5 id="OutputTo">Output To</h5>
-    <p>This field is the base directory where eqgame.exe is located for Project Quarm. If the respective files are not located for a Zeal install, the program will show an error when you go to Create the fonts. The drop down may be auto-populated with some locations of where the game was installed to. If there are no paths listed, copy/paste the path to eqgame.exe without the eqgame.exe part. Some install paths may look like <pre class="inlinel">C:\Sony\EverQuest\</pre> or <pre class="inline">C:\Quarm</pre></p>
+    <h3 id="OutputTo">Output To</h3>
+    <p>This field is the base directory where eqgame.exe is located for Project Quarm. If the respective files are not located for a Zeal install, the program will show an error when you go to Create the fonts. The drop down may be auto-populated with some locations of where the game was installed to. If there are no paths listed, copy/paste the path to eqgame.exe without the eqgame.exe part. Some install paths may look like <pre class="inline">C:\Sony\EverQuest\</pre> or <pre class="inline">C:\Quarm</pre></p>
 
-    <h5 id="CreatingTheFonts">Creating The Fonts</h5>
+    <h3 id="CreatingTheFonts">Creating The Fonts</h3>
     <p>Once all of the above settings have been set, the fonts selected, the final task is to actually click on the "Create" button to start creating the desired fonts into the format that Zeal supports. The progress bar will update with this information as each font is processed with a numerical indicator below showing its progress as well. Once you have clicked on Create, there is no pause or cancel feature and it will continue until it has completed, or this program was terminated.</p>
 
-    <h5 id="ProgramSettings">Program Settings</h5>
+    <h3 id="ProgramSettings">Program Settings</h3>
     <p>The program settings button shows up a form where you can adjust some settings of the application, like the programs font size, the background color and foreground color. These options may not work for all sizes and color schemes, a reset defaults button is provided in case of an issue where text is unreadable.</p>
     <p>There are some additional settings there available to you, if you so wish to further customize the experience. Such as forcing the "Select Some" button always using regular expressions or allowing multiple sizes to be inputted instead of one at a time.</p>
 
-    <h3 id="Errors">Addressing Errors</h3>
+    <h2 id="Errors">Addressing Errors</h2>
     <p>There are some various errors this program will give, and while the errors should generally be descriptive on what the problem is, you can read about each one more in-depth here, and how to resolve the issue.</p>
 
-    <h5>Error 0x01 - No Fonts Selected</h5>
+    <h3>Error 0x01 - No Fonts Selected</h3>
+    <blockquote class="error">Could not create sprite fonts because there are none selected!</blockquote>
     <p>
-        <blockquote>Could not create sprite fonts because there are none selected!</blockquote>
         This error means that there were no selected fonts in the font pane, as described in the <a href="#SelectingFonts">Selecting Fonts</a> section. Make sure at least one font is selected in that pane.
     </p>
 
-    <h5>Error 0x02 - Size Out Of Range</h5>
+    <h3>Error 0x02 - Size Out Of Range</h3>
+    <blockquote class="error">Could not create sprite fonts because the font size is out of range!</blockquote>
     <p>
-        <blockquote>Could not create sprite fonts because the font size is out of range!</blockquote>
         This error should normally never be experienced when using the non-advanced mode of size inputs. This error means that the value given for the font size is outside the expected numerical range. The acceptable range is from 1 to 100. Note: Excessively large font sizes may fail to be usable by Zeal.
     </p>
 
-    <h5>Error 0xF1 - Path Not Valid</h5>
+    <h3>Error 0xF1 - Path Not Valid</h3>
+    <blockquote class="error">The provided path is invalid! Please make sure the path supplied is to the Quarm directory where Zeal is installed.</blockquote>
     <p>
-        <blockquote>The provided path is invalid! Please make sure the path supplied is to the Quarm directory where Zeal is installed.</blockquote>
         This error means that the provided path for the field labeled "Output To" cannot determine that Zeal is installed as the provided path does not exist. Make sure that the path is indeed a valid location for Project Quarm installation with Zeal installed.
     </p>
 
-    <h5>Error 0xF2 - Path Not Valid</h5>
+    <h3>Error 0xF2 - Path Not Valid</h3>
+    <blockquote>The provided path does not seem to have zeal installed! Please make sure the path supplied is to the Quarm directory where Zeal is installed.</blockquote>
     <p>
-        <blockquote>The provided path does not seem to have zeal installed! Please make sure the path supplied is to the Quarm directory where Zeal is installed.</blockquote>
         This error means that the provided path for the field labeled "Output To" cannot determine that Zeal is installed as the provided path does not seem to include the folder <pre class="inline">uifiles\zeal</pre>. Make sure that the path is indeed a valid location for Project Quarm installation with Zeal installed.
     </p>
 
-    <h5>Error 0xF3 - Path Not Valid</h5>
+    <h3>Error 0xF3 - Path Not Valid</h3>
+    <blockquote>The provided path does not seem to have a zeal fonts folder! Please make sure the path supplied is to the Quarm directory where Zeal is installed.</blockquote>
     <p>
-        <blockquote>The provided path does not seem to have a zeal fonts folder! Please make sure the path supplied is to the Quarm directory where Zeal is installed.</blockquote>
         This error means that the provided path for the field labeled "Output To" cannot determine that Zeal is installed correctly as the provided path does not seem to include the folder <pre class="inline">uifiles\zeal\fonts</pre>. This could mean your version of Zeal is outdated and does not support custom fonts. It is recommended to ensure the path is a valid location for Project Quarm installation with Zeal installed using at least 0.6.4.
     </p>
 
-    <h3 id="Advanced">Advanced Arguments</h3>
-    <p>There are a number of advanced arguments you can pass to MakeSpriteFont that are not used by this program to make it more streamlined for the average user. If you're looking for more information about the arguments to MakeSpriteFont, see the table below. This table may be not exhaustive, and is recommended to refer to the official documentation located on their <a target="_blank" href="https://github.com/microsoft/DirectXTK/wiki/MakeSpriteFont">GitHub MakeSpriteFont Wiki Page</a>'</p>
+    <h2 id="Advanced">Advanced Arguments</h2>
+    <p>There are a number of advanced arguments you can pass to MakeSpriteFont that are not used by this program to make it more streamlined for the average user. If you're looking for more information about the arguments to MakeSpriteFont, see the table below. This table may be not exhaustive, and is recommended to refer to the official documentation located on their <a target="_blank" href="https://github.com/microsoft/DirectXTK/wiki/MakeSpriteFont">GitHub MakeSpriteFont Wiki Page</a></p>
     <table>
         <tr>
             <th>Argument</th>
@@ -161,17 +196,17 @@
         </tr>
     </table>
 
-    <h3 id="Updating">Updating This Program</h3>
-    <p>This program can be manually checked for updates on GitHub located at <a href="https://github.com/Kalbintion/EQPQ-MakeSpritefont">https://github.com/Kalbintion/EQPQ-MakeSpritefont</a></p>
+    <h2 id="Updating">Updating This Program</h2>
+    <p>This program can be manually checked for updates on GitHub located at <a href="https://github.com/Kalbintion/EQPQ-MakeSpritefont" target="_blank">https://github.com/Kalbintion/EQPQ-MakeSpritefont</a></p>
 
 
-    <h3 id="UpdateMakeSpriteFont">Updating MakeSpriteFont</h3>
+    <h2 id="UpdateMakeSpriteFont">Updating MakeSpriteFont</h2>
     <p>You can freely update MakeSpriteFont by replacing the executable located in the lib folder of this application with a newer (or older) version of the application.</p>
 
-    <h3 id="TechInfo">Technical Information</h3>
+    <h2 id="TechInfo">Technical Information</h2>
     <p>There is various technical information that this program uses when addressing various systems, from gathering locations where eqgame.exe is located to what flags is actually being supplied to MakeSpriteFont. This section documents each of these.</p>
 
-    <h5>MakeSpriteFont Arguments</h5>
+    <h3>MakeSpriteFont Arguments</h3>
     <p>The following is the list of the arguments sent to the MakeSpriteFont application from this one. For a full list of arguments MakeSpriteFont accepts, see the <a href="#Advanced">Advanced Arguments</a> section.</p>
     <table>
         <tr>

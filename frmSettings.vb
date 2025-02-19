@@ -7,7 +7,7 @@
         Next
     End Sub
 
-    Private Sub frmSettings_Load(sender As Object, e As EventArgs) Handles MyBase.Load
+    Private Sub setFormSettings()
         txtAppFont.Text = My.Settings.AppFont.ToString()
 
         Dim tempColor As Color = My.Settings.AppClrForeground
@@ -18,6 +18,12 @@
 
         chkAllowMultiple.Checked = My.Settings.UseAdvancedFontSize
         chkAlwaysUseRegex.Checked = My.Settings.AlwaysUseRegex
+        chkSuperFastRaster.Checked = My.Settings.SuperFastRaster
+        nudProcTimeout.Value = My.Settings.ProcessTimeout
+    End Sub
+
+    Private Sub frmSettings_Load(sender As Object, e As EventArgs) Handles MyBase.Load
+        setFormSettings()
     End Sub
 
     Private Sub btnAppFont_Click(sender As Object, e As EventArgs) Handles btnAppFont.Click
@@ -62,9 +68,16 @@
             My.Settings.AppFont = New Font("Segoe UI", 9)
             My.Settings.AppClrForeground = SystemColors.ControlText
             My.Settings.AppClrBackground = SystemColors.Control
+
+            My.Settings.UseAdvancedFontSize = False
+            My.Settings.AlwaysUseRegex = True
+            My.Settings.SuperFastRaster = True
+            My.Settings.ProcessTimeout = 60
+
             My.Settings.Save()
 
             updateFormSettings()
+            setFormSettings()
         End If
     End Sub
 

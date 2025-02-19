@@ -142,6 +142,8 @@ Partial Class frmSettings
         ' chkAlwaysUseRegex
         ' 
         chkAlwaysUseRegex.AutoSize = True
+        chkAlwaysUseRegex.Checked = True
+        chkAlwaysUseRegex.CheckState = CheckState.Checked
         chkAlwaysUseRegex.Location = New Point(127, 40)
         chkAlwaysUseRegex.Name = "chkAlwaysUseRegex"
         chkAlwaysUseRegex.Size = New Size(15, 14)
