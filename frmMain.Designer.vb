@@ -53,6 +53,7 @@ Partial Class frmMain
         scSecondary = New SplitContainer()
         pnlFontButtons = New Panel()
         Label1 = New Label()
+        btnFontManager = New Button()
         lblProgress = New Label()
         pbarCreate = New ProgressBar()
         btnSettings = New Button()
@@ -355,6 +356,7 @@ Partial Class frmMain
         ' 
         ' scSecondary.Panel2
         ' 
+        scSecondary.Panel2.Controls.Add(btnFontManager)
         scSecondary.Panel2.Controls.Add(lblProgress)
         scSecondary.Panel2.Controls.Add(pbarCreate)
         scSecondary.Panel2.Controls.Add(btnSettings)
@@ -391,6 +393,15 @@ Partial Class frmMain
         Label1.TabIndex = 0
         Label1.Text = "Select Font(s)"
         Label1.TextAlign = ContentAlignment.TopCenter
+        ' 
+        ' btnFontManager
+        ' 
+        btnFontManager.Location = New Point(97, 272)
+        btnFontManager.Name = "btnFontManager"
+        btnFontManager.Size = New Size(126, 23)
+        btnFontManager.TabIndex = 18
+        btnFontManager.Text = "Manage Zeal Fonts"
+        btnFontManager.UseVisualStyleBackColor = True
         ' 
         ' lblProgress
         ' 
@@ -542,5 +553,6 @@ Partial Class frmMain
     Friend WithEvents txtFontSizes As TextBox
     Friend WithEvents pbarCreate As ProgressBar
     Friend WithEvents lblProgress As Label
+    Friend WithEvents btnFontManager As Button
 
 End Class

@@ -40,81 +40,7 @@ Public Class frmMain
     End Sub
 
     Private Sub GetEQInstallDir()
-        Dim foundLocations As New List(Of String)
-        Dim compatStore As RegistryKey
-        Dim compatStoreVals As String()
-
-        Try
-            ' HKCU - Compatibility
-            compatStore = Registry.CurrentUser.OpenSubKey("Software\Microsoft\Windows NT\CurrentVersion\AppCompatFlags\Compatibility Assistant\Store")
-            compatStoreVals = compatStore.GetValueNames()
-
-            For Each subKey As String In compatStoreVals
-                Debug.WriteLine("Checking: " & subKey)
-                If subKey.Contains("eqgame.exe") Then
-                    subKey = subKey.Replace("eqgame.exe", "")
-                    foundLocations.Add(subKey)
-                End If
-            Next
-
-            compatStore.Close()
-        Catch ex As Security.SecurityException
-            Debug.Print("Could not access HKCU location for checking eqgame path. Permission denied." & Environment.NewLine & ex.Message)
-        End Try
-
-        Try
-            ' HKLM - Compatibility
-            compatStore = Registry.LocalMachine.OpenSubKey("SOFTWARE\Microsoft\Windows NT\CurrentVersion\AppCompatFlags\Layers")
-            compatStoreVals = compatStore.GetValueNames()
-
-            For Each subkey As String In compatStoreVals
-                Debug.WriteLine("Checking: " & subkey)
-                If subkey.Contains("eqgame.exe") Then
-                    subkey = subkey.Replace("eqgame.exe", "")
-                    foundLocations.Add(subkey)
-                End If
-            Next
-
-            compatStore.Close()
-        Catch ex As Security.SecurityException
-            Debug.Print("Could not access HKLM location for checking eqgame path. Permission denied." & Environment.NewLine & ex.Message)
-        End Try
-
-        ' Check misc paths
-        Dim pathSegments As String() = {
-            "\Sony\EverQuest\",
-            "\EverQuest\",
-            "\EQ\",
-            "\Program Files\Sony\EverQuest\",
-            "\Program Files\EverQuest\",
-            "\Program Files\EQ\",
-            "\Program Files (x86)\Sony\EverQuest\",
-            "\Program Files (x86)\EverQuest\",
-            "\Program Files (x86)\EQ"
-            }
-
-        Try
-            For Each drive As DriveInfo In DriveInfo.GetDrives()
-                If drive.DriveType <> DriveType.CDRom Then ' Cannot write to cd roms (normally) so ignore these drives
-                    For Each pathSegment As String In pathSegments
-                        Dim cPath As String = drive.Name & pathSegment
-                        If Path.Exists(cPath) Then
-                            foundLocations.Add(cPath)
-                        End If
-                    Next
-                End If
-            Next
-        Catch ex As IOException
-            Debug.Print("Could Not access drive information! " & Environment.NewLine & ex.Message)
-        Catch ex As UnauthorizedAccessException
-            Debug.Print("Could Not access drive information! " & Environment.NewLine & ex.Message)
-        End Try
-
-        ' Add paths from Settings
-        foundLocations.AddRange(My.Settings.PreviousEQPaths.Split(";"))
-
-        ' Remove duplicates
-        foundLocations = foundLocations.Distinct().ToList()
+        Dim foundLocations As List(Of String) = EQPaths.GetPaths()
 
         ' Clear and add them to list
         cmbOutputTo.Items.Clear()
@@ -127,84 +53,18 @@ Public Class frmMain
     End Sub
 
     Private Sub btnFontSelectAll_Click(sender As Object, e As EventArgs) Handles btnFontSelectAll.Click
-        For Each node As TreeNode In tvFonts.Nodes
-            node.Checked = True
-        Next
+        Selector.All(tvFonts)
     End Sub
 
     Private Sub btnFontSelectNone_Click(sender As Object, e As EventArgs) Handles btnFontSelectNone.Click
+        Selector.None(tvFonts)
         For Each node As TreeNode In tvFonts.Nodes
             node.Checked = False
         Next
     End Sub
 
     Private Sub btnFontSelectSome_Click(sender As Object, e As EventArgs) Handles btnFontSelectSome.Click
-        Dim searchOn = InputBox("Select items based on entered text. Use wildcard (*) to select multiple. Search pattern accepts Regular Expression." & Environment.NewLine & Environment.NewLine &
-                                          "To cancel, Leave blank Or use the cancel button.", "Select Some", "")
-
-        If searchOn.Length = 0 Then
-            Return
-        End If
-
-        ' Determine search type
-        Dim reBasicString As New Regex("^[a-zA-Z0-9 ]{1,}$")
-        Dim reWildcardString As New Regex("^[a-z-A-Z0-9 *]{1,}$")
-        Dim reRegexString As New Regex(searchOn, RegexOptions.IgnoreCase)
-        Dim reSearchOn As Regex
-        If My.Settings.AlwaysUseRegex Then
-            If reBasicString.IsMatch(searchOn) Then
-                Debug.Print("Basic Search")
-                reSearchOn = New Regex(searchOn, RegexOptions.IgnoreCase)
-            ElseIf reWildcardString.IsMatch(searchOn) Then
-                Debug.Print("Wildcard Search")
-                reSearchOn = New Regex(searchOn.Replace("*", ".*"), RegexOptions.IgnoreCase)
-            Else
-                Debug.Print("RegEx Search")
-                reSearchOn = reRegexString
-            End If
-
-            Debug.Print(searchOn & Environment.NewLine & reSearchOn.ToString)
-
-            For Each node As TreeNode In tvFonts.Nodes
-                node.Checked = reSearchOn.IsMatch(node.Text)
-            Next
-        Else
-            If reBasicString.IsMatch(searchOn) Then
-                For Each node As TreeNode In tvFonts.Nodes
-                    node.Checked = node.Text.Contains(searchOn)
-                Next
-
-                Return
-            ElseIf reWildcardString.IsMatch(searchOn) Then
-                Dim wildcardParts As String() = searchOn.Split("*")
-                Dim lastPartIdx As Integer = 0
-                Dim found As Boolean = True
-                For Each node As TreeNode In tvFonts.Nodes
-                    For Each wildcardPart As String In wildcardParts
-                        Dim tempIdx As Integer = node.Text.IndexOf(wildcardPart, lastPartIdx)
-                        If tempIdx = -1 Then
-                            found = False
-                            Exit For
-                        Else
-                            lastPartIdx = tempIdx
-                        End If
-                    Next
-                    If found Then
-                        node.Checked = True
-                    End If
-                    found = True
-                    lastPartIdx = 0
-                Next
-            Else
-                reSearchOn = reRegexString
-                Debug.Print(searchOn & Environment.NewLine & reSearchOn.ToString)
-
-                For Each node As TreeNode In tvFonts.Nodes
-                    node.Checked = reSearchOn.IsMatch(node.Text)
-                Next
-            End If
-
-        End If
+        Selector.Some(tvFonts)
     End Sub
 
     Private Sub btnAbout_Click(sender As Object, e As EventArgs) Handles btnAbout.Click
@@ -219,24 +79,9 @@ Public Class frmMain
         ' Validation
         ' Base Path
         Dim bPath As String = Path.GetFullPath(cmbOutputTo.Text)
-        If Not Path.Exists(bPath) Then
-            ShowError("ERROR 0xF1 - Path Not Valid: The provided path is invalid! Please make sure the path supplied is to the Quarm directory where Zeal is installed.")
-            Return
-        End If
 
-        ' Zeal
-        bPath &= "\uifiles\zeal"
-        If Not Path.Exists(bPath) Then
-            ShowError("ERROR 0xF2 - Path Not Valid: The provided path does not seem to have zeal installed! Please make sure the path supplied is to the Quarm directory where Zeal is installed.")
-            Return
-        End If
-
-        ' Zeal Fonts
-        bPath &= "\fonts\"
-        If Not Path.Exists(bPath) Then
-            ShowError("ERROR 0xF3 - Path Not Valid: The provided path does not seem to have a zeal fonts folder! Please make sure the path supplied is to the Quarm directory where Zeal is installed.")
-            Return
-        End If
+        Dim zealFound As Boolean = EQPaths.IsZealHere(bPath)
+        If Not zealFound Then Return
 
         Dim fontList As New List(Of String)
 
@@ -396,7 +241,7 @@ Public Class frmMain
         frmSettings.Show()
     End Sub
 
-    Private Sub ShowError(ByVal message As String, Optional ByVal title As String = "Error", Optional ByVal buttons As MessageBoxButtons = MessageBoxButtons.OK, Optional ByVal defaultButton As MessageBoxDefaultButton = MessageBoxDefaultButton.Button1)
-        MessageBox.Show(Me, message, title, buttons, MessageBoxIcon.Error, defaultButton)
+    Private Sub btnFontManager_Click(sender As Object, e As EventArgs) Handles btnFontManager.Click
+        frmFontManager.Show()
     End Sub
 End Class

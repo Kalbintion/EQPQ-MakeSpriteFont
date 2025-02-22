@@ -16,7 +16,6 @@
         }
 
         h1, h2, h3, h4, h5 {
-            margin: 1rem 0 0.5rem 0;
             text-decoration: underline;
         }
 
@@ -41,17 +40,34 @@
             width: fit-content;
             margin: 0 0 0.25rem 0.5rem;
         }
+        
+        a, a:visited, a:active {
+            margin: 0;
+            padding: 0;
+            color: rgba(0, 0, 255);
+        }
+
+        div.header {
+            margin: 1rem 0 0.5rem 0;
+        }
+
+        div.header > * {
+            display: inline;
+        }
+
+        a.small {
+            font-size: 0.75rem;
+            margin: 0 0.5rem 0 0.5rem;
+        }
     </style>
 </head>
 <body>
     <h1 class="title">EverQuest - Project Quarm - MakeSpriteFont</h1>
     <h2>Help Index</h2>
-    <ul class="toc">
+    <ul class="toc" id="toc">
         <li><a href="#About">About</a></li>
-        <li><a href="#Usage">Using The Program</a></li>
-        <li><a href="#Advanced">Advanced Arguments</a></li>
         <li>
-            <a href="#Updating">Updating This Program</a>
+            <a href="#Usage">Using The Program</a>
             <ul>
                 <li><a href="#SelectingFonts">Selecting Fonts</a></li>
                 <li><a href="#FontSize">Font Size</a></li>
@@ -63,75 +79,139 @@
                 <li><a href="#ProgramSettings">Program Settings</a></li>
             </ul>
         </li>
-        <li><a href="#Errors">Addressing Errors</a></li>
+        <li>
+            <a href="#UsageManager">Using The Font Manager</a>
+            <ul>
+                <li><a href="#FMgrSelecting">Selecting Fonts</a></li>
+                <li><a href="#FMgrExtra">Seeing Extra Fonts</a></li>
+                <li><a href="#FMgrDelete">Deleting Fonts</a></li>
+                <li><a href="#FMgrMoving">Moving Fonts</a></li>
+                <li><a href="#FMgrOpen">Getting To The Folder</a></li>
+                <li><a href="#FMgrRefresh">Refreshing The List</a></li>
+            </ul>
+        </li>
+        <li><a href="#Advanced">Advanced Arguments</a></li>
+        <li><a href="#Updating">Updating This Program</a></li>
+        <li>
+            <a href="#Errors">Addressing Errors</a>
+            <ul>
+                <li><a href="#Error0X">0x0#</a></li>
+                <li><a href="#Error1X">0x1#</a></li>
+                <li><a href="#Error2X">0x2#</a></li>
+                <li><a href="#ErrorFX">0xF#</a></li>
+            </ul>
+        </li>
         <li><a href="#UpdateMakeSpriteFont">Updating MakeSpriteFont</a></li>
         <li><a href="#TechInfo">Technical Information</a></li>
     </ul>
-    <h2 id="About">About</h2>
+    <div class="header"><h2 id="About">About</h2><a class="small" href="#">Top</a></div>
     <p>EQPQ MakeSpriteFont is a program designed to convert fonts into usable font assets for the project's addon, Zeal. This tool is a user friendly wrapper to the tool released by Microsoft on GitHub for making this happen under their DirectXTK repository.</p>
 
-    <h2 id="Usage">Using The Program</h2>
+    <div class="header"><h2 id="Usage">Using The Program</h2><a class="small" href="#">Top</a></div>
     <p>The following sections explains each of the components of this program, and what they do.</p>
 
-    <h3 id="SelectingFonts">Selecting Fonts</h3>
+    <div class="header"><h3 id="SelectingFonts">Selecting Fonts</h3><a class="small" href="#">Top</a></div>
     <p>The left-most pane contains all of the fonts that were found installed on the system. If a font is missing, make sure it is installed before running the program. Each font checked will be rendered out to Zeal's fonts folder.</p>
 
-    <h3 id="FontSize">Font Size</h3>
+    <div class="header"><h3 id="FontSize">Font Size</h3><a class="small" href="#">Top</a></div>
     <p>The size of the font to attempt to render out at. This applies only to TrueType Fonts (.ttf) and is ignored for other types.</p>
 
-    <h3 id="FontStyle">Font Style</h3>
+    <div class="header"><h3 id="FontStyle">Font Style</h3><a class="small" href="#">Top</a></div>
     <p>The font style to be used, generally the Regular or Bold settings will be used for more ease of reading the text, but the other options are available. Unfortunately, only one of these options is available at any time for any font.</p>
 
-    <h3 id="Sharpening">Sharpening</h3>
+    <div class="header"><h3 id="Sharpening">Sharpening</h3><a class="small" href="#">Top</a></div>
     <p>This setting enables sharper antialiasing mode for TrueType Font (.ttf) rasterization. It is generally recommended to enable this setting if the font looks blurry.</p>
 
-    <h3 id="ExtraArgs">Extra Arguments</h3>
+    <div class="header"><h3 id="ExtraArgs">Extra Arguments</h3><a class="small" href="#">Top</a></div>
     <p>This is an advanced user field. If you wish to further modify the flags sent to the MakeSpriteFont program, see the <a href="#Advanced">Advanced Arguments</a> section. This field should generally not be modified unless you know what you are doing.</p>
 
-    <h3 id="OutputTo">Output To</h3>
+    <div class="header"><h3 id="OutputTo">Output To</h3><a class="small" href="#">Top</a></div>
     <p>This field is the base directory where eqgame.exe is located for Project Quarm. If the respective files are not located for a Zeal install, the program will show an error when you go to Create the fonts. The drop down may be auto-populated with some locations of where the game was installed to. If there are no paths listed, copy/paste the path to eqgame.exe without the eqgame.exe part. Some install paths may look like <pre class="inline">C:\Sony\EverQuest\</pre> or <pre class="inline">C:\Quarm</pre></p>
 
-    <h3 id="CreatingTheFonts">Creating The Fonts</h3>
+    <div class="header"><h3 id="CreatingTheFonts">Creating The Fonts</h3><a class="small" href="#">Top</a></div>
     <p>Once all of the above settings have been set, the fonts selected, the final task is to actually click on the "Create" button to start creating the desired fonts into the format that Zeal supports. The progress bar will update with this information as each font is processed with a numerical indicator below showing its progress as well. Once you have clicked on Create, there is no pause or cancel feature and it will continue until it has completed, or this program was terminated.</p>
 
-    <h3 id="ProgramSettings">Program Settings</h3>
+    <div class="header"><h3 id="ProgramSettings">Program Settings</h3><a class="small" href="#">Top</a></div>
     <p>The program settings button shows up a form where you can adjust some settings of the application, like the programs font size, the background color and foreground color. These options may not work for all sizes and color schemes, a reset defaults button is provided in case of an issue where text is unreadable.</p>
     <p>There are some additional settings there available to you, if you so wish to further customize the experience. Such as forcing the "Select Some" button always using regular expressions or allowing multiple sizes to be inputted instead of one at a time.</p>
 
-    <h2 id="Errors">Addressing Errors</h2>
+    <div class="header"><h3 id="UsageManager">Using The Font Manager</h3><a class="small" href="#">Top</a></div>
+    <p>The Font Manager part of the program is used for managing the font files within the Zeals font directory. If the top drop-down is highlighted in blue, however, this means that the program was not given the correct path to the Zeal installation.</p>
+
+    <div class="header"><h3 id="FMgrSelecting">Selecting Fonts</h3><a class="small" href="#">Top</a></div>
+    <p>To select which font files to manage, mark their checkbox on the right pane and then select one of the desired actions. For more information about each action, see below sections.</p>
+
+    <div class="header"><h3 id="FMgrExtra">Seeing Extra Fonts</h3><a class="small" href="#">Top</a></div>
+    <p>In order to see the fonts in the extra folder, this button is a toggle. When pressed and active, it will be showing the items in the extra folder. This is the folder where Zeal has extra fonts stored for users but may not normally be desired to list where it would clog up the in-game options listing. While pressed, the "Move to" button will state "Move to Fonts" to move selected fonts out of the extra folder and into the font folder to be seen in-game. When unpressed, it shows the current font files that you would be seeing in game and the "Move to" button will then show "Move to Extra" to move font files out of the listing and into the storage folder.</p>
+
+    <div class="header"><h3 id="FMgrDelete">Deleting Fonts</h3><a class="small" href="#">Top</a></div>
+    <p>The "Delete Selected" button does as the name implies, it will delete any and all selected fonts from either the font folder or the extra folder depending on the currently viewed listing. Clicking this button will confirm with you once about actually going through with the deletion process, as well as confirmation when the deletion is done. Note: Files deleted through this program <b>can</b> be restored by restoring them from the Recycle Bin.</b></p>
+
+    <div class="header"><h3 id="FMgrMoving">Moving Fonts</h3><a class="small" href="#">Top</a></div>
+    <p>The "Move to" button indicates whether you are moving fonts over to the extra folder where zeal has included some default, but maybe not desired, fonts or moving them back for them to be seen by Zeal. This feature is useful to back-up fonts that you may want in the future, but are unsure if you want to always have them in the font listing.</p>
+
+    <div class="header"><h3 id="FMgrOpen">Getting To The Folder</h3><a class="small" href="#">Top</a></div>
+    <p>In the event you wish to do manual management of the files, clicking on the "Open Font Folder" button will bring up the folder already opened in explorer, the normal default folder viewing application of Windows. Note: If you do any manual deletion, or moving of files, you will need to click on the Refresh Listing button to see your changes in the program.</p>
+
+    <div class="header"><h3 id="FMgrRefresh">Refreshing The List</h3><a class="small" href="#">Top</a></div>
+    <p>If for any reason the font listing on the right pane seems out of date, either because of the program not refreshing it properly after <a href="#FmgrMoving">moving</a> or <a href="#FMgrDelete">deleting</a> a font, then this button can be clicked on to manually cause the listing to be refreshed.</p>
+
+    <div class="header"><h2 id="Errors">Addressing Errors</h2><a class="small" href="#">Top</a></div>
     <p>There are some various errors this program will give, and while the errors should generally be descriptive on what the problem is, you can read about each one more in-depth here, and how to resolve the issue.</p>
 
-    <h3>Error 0x01 - No Fonts Selected</h3>
+    <a id="Error0X"></a>
+    <div class="header"><h3>Error 0x01 - No Fonts Selected</h3><a class="small" href="#">Top</a></div>
     <blockquote class="error">Could not create sprite fonts because there are none selected!</blockquote>
     <p>
         This error means that there were no selected fonts in the font pane, as described in the <a href="#SelectingFonts">Selecting Fonts</a> section. Make sure at least one font is selected in that pane.
     </p>
 
-    <h3>Error 0x02 - Size Out Of Range</h3>
+    <div class="header"><h3>Error 0x02 - Size Out Of Range</h3><a class="small" href="#">Top</a></div>
     <blockquote class="error">Could not create sprite fonts because the font size is out of range!</blockquote>
     <p>
         This error should normally never be experienced when using the non-advanced mode of size inputs. This error means that the value given for the font size is outside the expected numerical range. The acceptable range is from 1 to 100. Note: Excessively large font sizes may fail to be usable by Zeal.
     </p>
 
-    <h3>Error 0xF1 - Path Not Valid</h3>
+    <a id="Error1X"></a>
+    <div class="header"><h3>Error 0x11 - No Fonts Selected</h3><a class="small" href="#">Top</a></div>
+    <blockquote class="error">ERROR 0x11 - No Fonts Selected: Could not delete fonts because no fonts are selected!</blockquote>
+    <p>
+        This error means that there were no selected fonts in the font pane on the right of the Font Manager window. Make sure to select at least one font in order to delete it.
+    </p>
+
+    <div class="header"><h3>Error 0x1F - Path Too Long</h3><a class="small" href="#">Top</a></div>
+    <blockquote class="error">ERROR 0x1F - Path Too Long: Could not delete a font file due to the path being too long!</blockquote>
+    <p>
+        This error means that the installation path where you have Quarm installed is too nested for the program to manage deleting fonts for. Move your installation to another shorter path such as <pre class="inline">C:\EverQuest\Quarm</pre> and try again.
+    </p>
+
+    <a id="Error2X"></a>
+    <div class="header"><h3>Error 0x21 - No Fonts Selected</h3><a class="small" href="#">Top</a></div>
+    <blockquote class="error">ERROR 0x21 - No Fonts Selected: Could not move fonts because no fonts are selected!</blockquote>
+    <p>
+        This error means that there were no selected fonts in the font pane on the right of the Font Manager window. Make sure to select at least one font in order to move it.
+    </p>
+
+    <a id="ErrorFX"></a>
+    <div class="header"><h3>Error 0xF1 - Path Not Valid</h3><a class="small" href="#">Top</a></div>
     <blockquote class="error">The provided path is invalid! Please make sure the path supplied is to the Quarm directory where Zeal is installed.</blockquote>
     <p>
         This error means that the provided path for the field labeled "Output To" cannot determine that Zeal is installed as the provided path does not exist. Make sure that the path is indeed a valid location for Project Quarm installation with Zeal installed.
     </p>
 
-    <h3>Error 0xF2 - Path Not Valid</h3>
-    <blockquote>The provided path does not seem to have zeal installed! Please make sure the path supplied is to the Quarm directory where Zeal is installed.</blockquote>
+    <div class="header"><h3>Error 0xF2 - Path Not Valid</h3><a class="small" href="#">Top</a></div>
+    <blockquote class="error">The provided path does not seem to have zeal installed! Please make sure the path supplied is to the Quarm directory where Zeal is installed.</blockquote>
     <p>
         This error means that the provided path for the field labeled "Output To" cannot determine that Zeal is installed as the provided path does not seem to include the folder <pre class="inline">uifiles\zeal</pre>. Make sure that the path is indeed a valid location for Project Quarm installation with Zeal installed.
     </p>
 
-    <h3>Error 0xF3 - Path Not Valid</h3>
-    <blockquote>The provided path does not seem to have a zeal fonts folder! Please make sure the path supplied is to the Quarm directory where Zeal is installed.</blockquote>
+    <div class="header"><h3>Error 0xF3 - Path Not Valid</h3><a class="small" href="#">Top</a></div>
+    <blockquote class="error">The provided path does not seem to have a zeal fonts folder! Please make sure the path supplied is to the Quarm directory where Zeal is installed.</blockquote>
     <p>
         This error means that the provided path for the field labeled "Output To" cannot determine that Zeal is installed correctly as the provided path does not seem to include the folder <pre class="inline">uifiles\zeal\fonts</pre>. This could mean your version of Zeal is outdated and does not support custom fonts. It is recommended to ensure the path is a valid location for Project Quarm installation with Zeal installed using at least 0.6.4.
     </p>
 
-    <h2 id="Advanced">Advanced Arguments</h2>
+    <div class="header"><h2 id="Advanced">Advanced Arguments</h2><a class="small" href="#">Top</a></div>
     <p>There are a number of advanced arguments you can pass to MakeSpriteFont that are not used by this program to make it more streamlined for the average user. If you're looking for more information about the arguments to MakeSpriteFont, see the table below. This table may be not exhaustive, and is recommended to refer to the official documentation located on their <a target="_blank" href="https://github.com/microsoft/DirectXTK/wiki/MakeSpriteFont">GitHub MakeSpriteFont Wiki Page</a></p>
     <table>
         <tr>
@@ -140,7 +220,7 @@
         </tr>
         <tr>
             <td>/CharacterRegion:<i>region</i></td>
-            <td>Specifices which Unicode (UTF-16) codepoints to include in teh font, be repeated to include more than one region. If not specified, the default ASCII range 32 to 126 is used.</td>
+            <td>Specifices which Unicode (UTF-16) codepoints to include in the font, be repeated to include more than one region. If not specified, the default ASCII range 32 to 126 is used.</td>
         </tr>
         <tr>
             <td>/DefaultCharacter:<i>value</i></td>
@@ -196,17 +276,17 @@
         </tr>
     </table>
 
-    <h2 id="Updating">Updating This Program</h2>
+    <div class="header"><h2 id="Updating">Updating This Program</h2><a class="small" href="#">Top</a></div>
     <p>This program can be manually checked for updates on GitHub located at <a href="https://github.com/Kalbintion/EQPQ-MakeSpritefont" target="_blank">https://github.com/Kalbintion/EQPQ-MakeSpritefont</a></p>
 
 
-    <h2 id="UpdateMakeSpriteFont">Updating MakeSpriteFont</h2>
+    <div class="header"><h2 id="UpdateMakeSpriteFont">Updating MakeSpriteFont</h2><a class="small" href="#">Top</a></div>
     <p>You can freely update MakeSpriteFont by replacing the executable located in the lib folder of this application with a newer (or older) version of the application.</p>
 
-    <h2 id="TechInfo">Technical Information</h2>
+    <div class="header"><h2 id="TechInfo">Technical Information</h2><a class="small" href="#">Top</a></div>
     <p>There is various technical information that this program uses when addressing various systems, from gathering locations where eqgame.exe is located to what flags is actually being supplied to MakeSpriteFont. This section documents each of these.</p>
 
-    <h3>MakeSpriteFont Arguments</h3>
+    <div class="header"><h3 id="MakeSpriteFontArgs">MakeSpriteFont Arguments</h3><a class="small" href="#">Top</a></div>
     <p>The following is the list of the arguments sent to the MakeSpriteFont application from this one. For a full list of arguments MakeSpriteFont accepts, see the <a href="#Advanced">Advanced Arguments</a> section.</p>
     <table>
         <tr>
